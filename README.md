@@ -1,2 +1,2 @@
-# Olaf-on-esp32
-A more detailed test for Olaf operating on ESP32-S3 under real life conditions.
+# Olaf on esp32
+This repository records a test for Olaf (https://github.com/JorenSix/Olaf/tree/master#limitations-of-olaf) on esp32-s3 recognizing audio sampled from INMP441

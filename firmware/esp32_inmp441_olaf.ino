@@ -45,14 +45,16 @@
 
 // a gain factor to amplify the sound: samples come out of the
 // microphone rather quietly.
-uint16_t gain_factor = 10;
+uint16_t gain_factor = 40;
 
 
 // Connections to INMP441 I2S microphone
+/// These ports are edited by WY-L1n
 #define I2S_WS 6
 #define I2S_SD 4
 #define I2S_SCK 7
 
+/// This port is edited by WY-L1n
 #define LED_BUILTIN LED_BUILTIN
 
 // Use I2S Processor 0
@@ -61,10 +63,15 @@ uint16_t gain_factor = 10;
 // Define input buffer length
 #define bufferLen 64
 uint8_t sBuffer[bufferLen*2];
-//chatgpt加的
+////The code below this line until next comment starts with//// is edited by WY-L1n
+/// Following three rows are initialising statistic variables, edited by WY-L1n using ChatGPT
+/// debug_count records the times extracting eventpoints
+/// debug_sum_sq accumulates the square of samles for calculating rms
+/// debug_peak records maximum amplitude
 uint32_t audio_debug_count = 0;
 double audio_debug_sum_sq = 0;
 int32_t audio_debug_peak = 0;
+////The code above this line is edited by WY-L1n
 
 size_t audio_block_index;
 float * audio_block;
@@ -212,25 +219,29 @@ void process_audio_block(){
   
   //extract event points
   eventPoints = olaf_ep_extractor_extract(ep_extractor,fft_out,audio_block_index);
+  //// The code below this line until next comment starts with//// is edited by WY-L1n
+  /// debug_count records the times extracting eventpoints
   static uint32_t ep_debug_count = 0;
   ep_debug_count++;
 
+  /// print the current eventpoints every 100 extracting
   if (ep_debug_count % 100 == 0) {
     Serial.printf("[OLAF] eventPoints=%d\n",
                 eventPoints->eventPointIndex);
   }
+  ////The code above this line is edited by WY-L1n
   //Serial.printf("Event point index: %d \n",eventPoints->eventPointIndex);
   
 
   //if there are enough event points
   if(eventPoints->eventPointIndex > config->eventPointThreshold){
-    //Serial.printf("[OLAF] PASS threshold: eventPoints=%d, threshold=%d\n",
-              //eventPoints->eventPointIndex,
-              //config->eventPointThreshold);
+  ////The code below this line until next comment starts with//// is edited by WY-L1n
+  /// print eventpoints if eventpoints exceeds
       Serial.printf("[OLAF] PASS: points=%d, threshold=%d, audio_block=%d\n",
               eventPoints->eventPointIndex,
               config->eventPointThreshold,
-              audio_block_index);
+              audio_block_index);\
+  ////The code above this line is edited by WY-L1n
     //combine the event points into fingerprints
     fingerprints = olaf_fp_extractor_extract(fp_extractor,eventPoints,audio_block_index);
 
@@ -267,30 +278,33 @@ void loop(){
     // I2S reads stereo data and one channel is zero the other contains
     // data, both have 2 bytes per sample
     int16_t samples_read = bytesIn / 2;
-    
-    
-    //for(size_t i = 0 ; i < samples_read ; i++){
-      //sample_buffer[i] = gain_factor * sample_buffer[i];
-      //Max for signed int16_t is 2^15
-      //audio_block[audio_sample_index] = sample_buffer[i] / 32768.f;
-      //audio_sample_index++;
-    for(size_t i = 0 ; i < samples_read ; i++){
-      int32_t raw = sample_buffer[i];
 
+
+    for(size_t i = 0 ; i < samples_read ; i++){
+      ////The code below this line until next comment starts with//// is edited by WY-L1n
+      ///store current original audio
+      int32_t raw = sample_buffer[i];
+      
+      ///refresh the recorded maximum amplitude in peak
       if (raw > audio_debug_peak) audio_debug_peak = raw;
       if (-raw > audio_debug_peak) audio_debug_peak = -raw;
+      ///record rms
       audio_debug_sum_sq += (double)raw * raw;
       audio_debug_count++;
 
-      //audio_block[audio_sample_index] = (raw / 32768.f) * gain_factor;
-      //if(audio_sample_index==block_size){
+      ///maintain original sample_buffer and use raw to apply gain fac
       if (audio_sample_index < block_size) {
         audio_block[audio_sample_index] = (raw / 32768.f) * gain_factor;
+      ////The code above this line is edited by WY-L1n
         audio_sample_index++;
+      ////The code below this line until next comment starts with//// is edited by WY-L1n
       }
-
+      ///avoid exceeding block size
       if (audio_sample_index >= block_size) {
+      ////The code above this line is edited by WY-L1n
         process_audio_block();
+        ////The code below this line until next comment starts with//// is edited by WY-L1n
+        ///print processed blocks
         static uint32_t debug_blocks = 0;
         debug_blocks++;
 
@@ -298,6 +312,7 @@ void loop(){
           Serial.printf("[OLAF] processed blocks=%lu\n",
                 (unsigned long)debug_blocks);
         }
+        ////The code above this line is edited by WY-L1n
         //printf("[OLAF] processed audio block index: %zu\n",audio_block_index);
         audio_block_index++;
 
@@ -310,6 +325,8 @@ void loop(){
     }
 
   }
+  ////The code below this line until next comment starts with//// is edited by WY-L1n
+  ///calculate and print rms and peak every 1000ms then reset
   static uint32_t last_debug_ms = 0;
   if (millis() - last_debug_ms >= 1000 && audio_debug_count > 0) {
     float rms = sqrt(audio_debug_sum_sq / audio_debug_count);
@@ -321,6 +338,7 @@ void loop(){
     audio_debug_peak = 0;
     last_debug_ms = millis();
   }
+  ////The code above this line is edited by WY-L1n
 }
 
 

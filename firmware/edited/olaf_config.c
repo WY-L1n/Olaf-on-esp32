@@ -146,8 +146,11 @@ Olaf_Config* olaf_config_esp_32(void){
 
 	//Set lower to get faster results
 	config->maxEventPoints = 50;
+	////The code below this line until next comment starts with//// is edited by WY-L1n
+	///attempted to make recognition less sensitive by increasing threshold
 	config->eventPointThreshold = 40;
 	config->maxFingerprints = 300;
+	////The code above this line is edited by WY-L1n
 
 	//The range around a hash to search
 	config->searchRange = 5;

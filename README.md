@@ -95,12 +95,11 @@ Olaf-on-ESP32/
 │   │   │   ├── olaf_530.h
 │   │   │   └── olaf_nsma.h
 │   │   │
-│   │   ├── Olaf-master/
-│   │   │   └── src/
-│   │   │       ├── olaf_db_mem_pack.h
-│   │   │       ├── olaf_db_mem.c
-│   │   │       ├── olaf_fp_db_writer_mem.c
-│   │   │       └── olaf_fp_ref_mem.h
+│   │   ├── Olaf-master/src/
+│   │   │   ├── olaf_db_mem_pack.h
+│   │   │   ├── olaf_db_mem.c
+│   │   │   ├── olaf_fp_db_writer_mem.c
+│   │   │   └── olaf_fp_ref_mem.h
 │   │   │
 │   │   ├── partitions.csv
 │   │   └── recording.ino

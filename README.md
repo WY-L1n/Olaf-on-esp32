@@ -83,45 +83,13 @@ The more the microphone got closer to my computer (with fan operation noise), th
 
 Possible reason: Ineffective peaks were extracted from audio picked, and make frequent collision to the fingerprint to cause false matches.
 
-## 5. Repository Structure
-Olaf-on-ESP32/
-│
-├── firmware/
-│   │
-│   ├── created/
-│   │   │
-│   │   ├── custom path/
-│   │   │   ├── olaf_39_all.h
-│   │   │   ├── olaf_530.h
-│   │   │   └── olaf_nsma.h
-│   │   │
-│   │   ├── Olaf-master/src/
-│   │   │   ├── olaf_db_mem_pack.h
-│   │   │   ├── olaf_db_mem.c
-│   │   │   ├── olaf_fp_db_writer_mem.c
-│   │   │   └── olaf_fp_ref_mem.h
-│   │   │
-│   │   ├── partitions.csv
-│   │   └── recording.ino
-│   │
-│   └── edited/
-│       ├── esp32_inmp441_olaf.ino
-│       └── olaf_config.c
-│
-├── hardware/
-│   └── 123.
-│
-├── README.md
-│
-└── research_log.md
-
-## 6. Third-party Software and Licensing
+## 5. Third-party Software and Licensing
 
 This project incorporates Olaf, an open-source acoustic fingerprinting system developed by Joren Six.
 
 Olaf is distributed under the GNU Affero General Public License v3.0 (AGPL-3.0).
 
-## 7. Acknowledgements
+## 6. Acknowledgements
 
 Thanks to the original contributors of Olaf for making their acoustic fingerprinting implementation available as open-source software.
 Original code: https://github.com/JorenSix/Olaf.git

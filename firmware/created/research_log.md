@@ -13,15 +13,20 @@ olaf_fp_ref_mem.h
 
 #custom path
 * Replace src/olaf_fp_ref_mem.h temporarily, to test when only one fingerprint is used for recognition
-olaf_39_generated.h
+olaf_39_all.h
 - Used to store fingerprint from 39 original audios (songs by kanye west)
 
-olaf_single_generated.h
-- Temporarily used to store fingerprint from only one original audio (Never see me again)
-
-olaf_test_300.h
+olaf_530.h
 - Temporarily used to store fingerprint from only one original audio (530)
+
+olaf_nsma.h
+- Temporarily used to store fingerprint from only one original audio (Never see me again)
 
 #others
 partitions.csv
-- An available partition scheme to use
+- An available partition scheme to use.
+
+recording.ino
+- A program which can record 10 second of sound automatically and stores in TF module as a wav. file
+- If built in LED flashed twice consecutively and quickly, then something went wrong on TF module
+- If built in LED falshed twice with a hasitate, then it starts recording after second flashing. After 10 second, next flashing comes, recording ends
